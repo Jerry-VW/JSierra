@@ -28,8 +28,8 @@ PID::PID(double* Input, double* Output, double* Setpoint,
     
     PID::SetOutputLimits(0, 255);				//default output limit corresponds to
     //the arduino pwm limits
-    
-    SampleTime = 100;							//default Controller Sample Time is 0.1 seconds
+    // Jerry's customization. change 100 to 4
+    SampleTime = 4;							//default Controller Sample Time is 0.004 seconds
     
     PID::SetControllerDirection(ControllerDirection);
     PID::SetTunings(Kp, Ki, Kd);
@@ -49,7 +49,10 @@ bool PID::Compute()
     if(!inAuto) return false;
     unsigned long now = millis();
     unsigned long timeChange = (now - lastTime);
-    if(timeChange>=SampleTime)
+    // Jerry's customization
+    // force to compute, ignore time lapse
+    if(true)
+    //if(timeChange>=SampleTime)
     {
         /*Compute all the working error variables*/
         double input = *myInput;
@@ -193,3 +196,11 @@ double PID::GetKd(){ return  dispKd;}
 int PID::GetMode(){ return  inAuto ? AUTOMATIC : MANUAL;}
 int PID::GetDirection(){ return controllerDirection;}
 
+/**
+ * Jerry's customization
+ * Since Driver.run() is called every 4ms, there's no need to calculate "real time".
+ * millis() could just return a value greater than SampleTime everytime it is called.
+ */
+unsigned long PID::millis(){
+    return 101;
+}

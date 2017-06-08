@@ -7,7 +7,8 @@ APPL_CXXOBJS += \
 	LineObserver.o \
 	BalancerCpp.o \
 	Driver.o \
-	Steerer.o
+	Steerer.o \
+	Comm.o
 
 SRCLANG := c++
 

@@ -1,9 +1,8 @@
 /******************************************************************************
- *  Engine.cpp (for LEGO Mindstorms EV3)
- *  Created on: 2015/01/25
- *  Implementation of the Class BalancingWalker
- *  Author: Kazuhiro.Kawachi
- *  Copyright (c) 2015 Embedded Technology Software Design Robot Contest
+ *  Engine.h
+ *  Created on: 2017/06/07
+ *  Implementation of the Class Engine
+ *  Author: Jerry W
  *****************************************************************************/
 
 #include "Engine.h"
@@ -21,9 +20,9 @@ const int Engine::HIGH   = 70;    // 高速
  * @param balancer   バランサ
  */
 Engine::Engine(const ev3api::GyroSensor& gyroSensor,
-                                 ev3api::Motor& leftWheel,
-                                 ev3api::Motor& rightWheel,
-                                 Balancer* balancer)
+               ev3api::Motor& leftWheel,
+               ev3api::Motor& rightWheel,
+               Balancer* balancer)
     : mGyroSensor(gyroSensor),
       mLeftWheel(leftWheel),
       mRightWheel(rightWheel),
@@ -72,5 +71,5 @@ void Engine::init() {
  */
 void Engine::setCommand(int forward, int turn) {
     mForward = forward;
-    mTurn    = turn;
+    mTurn = turn;
 }

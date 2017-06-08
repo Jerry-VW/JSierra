@@ -1,11 +1,10 @@
-//
-//  Steer.cpp
-//  JSierra
-//
-//  Controls turn value for driver.
-//  Created by WANGWENQIAN on 2017/06/01.
-//
-//
+/******************************************************************************
+ *  Steerer.h
+ *  Created on: 2017/06/07
+ *  Implementation of the Class Steerer
+ *  Author: Jerry W
+ *  Controls turn value for driver.
+ *****************************************************************************/
 
 #include "Steerer.h"
 //#include "PID.h"

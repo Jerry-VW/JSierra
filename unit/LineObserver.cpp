@@ -1,9 +1,8 @@
 /******************************************************************************
- *  LineMonitor.cpp (for LEGO Mindstorms EV3)
- *  Created on: 2015/01/25
- *  Definition of the Class LineMonitor
- *  Author: Kazuhiro Kawachi
- *  Copyright (c) 2015 Embedded Technology Software Design Robot Contest
+ *  LineObserver.h
+ *  Created on: 2017/06/07
+ *  Implementation of the Class LineObserver
+ *  Author: Jerry W
  *****************************************************************************/
 
 #include "LineObserver.h"

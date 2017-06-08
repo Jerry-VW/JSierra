@@ -1,9 +1,9 @@
 /******************************************************************************
  *  app.h (for LEGO Mindstorms EV3)
- *  Created on: 2015/01/25
- *  Definition of the Task main_task
- *  Author: Kazuhiro.Kawachi
- *  Copyright (c) 2015 Embedded Technology Software Design Robot Contest
+ *  Created on: 2017/06/07
+ *  Definition of the Tasks
+ *  Author: Jerry W
+ *  like system's root "main frame", controls cycle tasks etc.
  *****************************************************************************/
 
 #ifdef __cplusplus
@@ -13,9 +13,9 @@ extern "C" {
 #include "ev3api.h"
 
 /*
- *  各タスクの優先度の定義
+ *  Set priority
  */
-#define MAIN_PRIORITY    TMIN_APP_TPRI + 1  /* メインタスクの優先度 */
+#define MAIN_PRIORITY    TMIN_APP_TPRI + 1  /* main task priority */
 #define DRIVER_PRIORITY  TMIN_APP_TPRI + 2
 #define COMM_PRIORITY TMIN_APP_TPRI + 3
 
@@ -33,7 +33,10 @@ extern "C" {
 
 extern void main_task(intptr_t exinf);
 extern void driver_task(intptr_t exinf);
-extern void invoker_four_ms(intptr_t exinf);
+extern void comm_task(intptr_t exinf);
+
+extern void invoker_4_ms(intptr_t exinf);
+extern void invoker_8_ms(intptr_t exinf);
 
 #endif /* TOPPERS_MACRO_ONLY */
 

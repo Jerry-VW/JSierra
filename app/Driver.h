@@ -1,36 +1,34 @@
 /******************************************************************************
- *  LineTracer.h (for LEGO Mindstorms EV3)
- *  Created on: 2015/01/25
- *  Definition of the Class LineTracer
- *  Author: Kazuhiro Kawachi
- *  Copyright (c) 2015 Embedded Technology Software Design Robot Contest
+ *  Driver.h
+ *  Created on: 2017/06/07
+ *  Definition of the Class Driver
+ *  Author: Jerry W
  *****************************************************************************/
 
 #ifndef DRIVER_H_
 #define DRIVER_H_
 
+// moduels' .h files
 #include "LineObserver.h"
 #include "Engine.h"
 #include "Steerer.h"
 
 class Driver {
-public:
-    Driver(const LineObserver* lineobserver, 
-                 Engine* engine, 
-                 Steerer* steerer);
+  public:
+    Driver(const LineObserver* lineobserver,
+           Engine* engine,
+           Steerer* steerer);
 
     void run();
 
-private:
+  private:
+    // modules' pointer that driver needs
     const LineObserver* mLineObserver;
     Engine* mEngine;
     Steerer* mSteerer;
-
+    // normal variables
     bool mIsInitialized;
-
-    int calcDirection(bool isOnLine);
-
     int iTurn;
 };
 
-#endif  // EV3_APP_LINETRACER_H_
+#endif  // DRIVER_H_

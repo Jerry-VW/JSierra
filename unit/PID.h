@@ -1,10 +1,14 @@
-//
-//  PID.h
-//  JSierra
-//
-//  Created by WANGWENQIAN on 2017/06/07.
-//
-//
+/******************************************************************************
+ * Arduino PID Library - Version 1.1.1
+ * by Brett Beauregard <br3ttb@gmail.com> brettbeauregard.com
+ *
+ * This Library is licensed under a GPLv3 License
+ *
+ *  PID.h
+ *  Created on: 2017/06/07
+ *  Definition of the Class PID
+ *  Author: Brett Beauregard
+ *****************************************************************************/
 
 #ifndef PID_h
 #define PID_h
@@ -83,5 +87,10 @@ private:
     unsigned long SampleTime;
     double outMin, outMax;
     bool inAuto;
+
+    /**
+     * Jerry's customization
+     */
+    unsigned long millis();
 };
 #endif // PID_H_

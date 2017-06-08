@@ -1,13 +1,12 @@
-//
-//  Steer.h
-//  JSierra
-//
-//  Created by WANGWENQIAN on 2017/06/01.
-//
-//
+/******************************************************************************
+ *  Steerer.h
+ *  Created on: 2017/06/07
+ *  Definition of the Class Steerer
+ *  Author: Jerry W
+ *****************************************************************************/
 
-#ifndef Steer_h
-#define Steer_h
+#ifndef STEERER_H_
+#define STEERER_H_
 
 //#include "PID.h"
 #include "LineObserver.h"
@@ -30,4 +29,4 @@ private:
     double Ki;
     double Kd;
 };
-#endif /* Steer_h */
+#endif // STEERER_H_
