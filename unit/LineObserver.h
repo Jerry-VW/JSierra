@@ -18,7 +18,7 @@ public:
     bool isOnLine();
     void setThreshold(int8_t threshold);
     //method
-    uint8_t getLightRate();
+    uint8_t getBrightness();
 private:
     static const int8_t INITIAL_THRESHOLD;
 

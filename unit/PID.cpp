@@ -26,7 +26,7 @@ PID::PID(double* Input, double* Output, double* Setpoint,
     mySetpoint = Setpoint;
     inAuto = false;
     
-    PID::SetOutputLimits(0, 255);				//default output limit corresponds to
+    PID::SetOutputLimits(-50, 50);				//default output limit corresponds to
     //the arduino pwm limits
     // Jerry's customization. change 100 to 4
     SampleTime = 4;							//default Controller Sample Time is 0.004 seconds
@@ -34,7 +34,7 @@ PID::PID(double* Input, double* Output, double* Setpoint,
     PID::SetControllerDirection(ControllerDirection);
     PID::SetTunings(Kp, Ki, Kd);
     
-    lastTime = millis()-SampleTime;
+    //lastTime = millis()-SampleTime;
 }
 
 
@@ -47,23 +47,23 @@ PID::PID(double* Input, double* Output, double* Setpoint,
 bool PID::Compute()
 {
     if(!inAuto) return false;
-    unsigned long now = millis();
-    unsigned long timeChange = (now - lastTime);
     // Jerry's customization
     // force to compute, ignore time lapse
+    //unsigned long now = millis();
+    //unsigned long timeChange = (now - lastTime);
     if(true)
     //if(timeChange>=SampleTime)
     {
         /*Compute all the working error variables*/
         double input = *myInput;
         double error = *mySetpoint - input;
-        ITerm+= (ki * error);
+        ITerm += (ki * error);
         if(ITerm > outMax) ITerm= outMax;
         else if(ITerm < outMin) ITerm= outMin;
         double dInput = (input - lastInput);
         
         /*Compute PID Output*/
-        double output = kp * error + ITerm- kd * dInput;
+        double output = kp * error + ITerm - kd * dInput;
         
         if(output > outMax) output = outMax;
         else if(output < outMin) output = outMin;
@@ -71,7 +71,7 @@ bool PID::Compute()
         
         /*Remember some variables for next time*/
         lastInput = input;
-        lastTime = now;
+        //lastTime = now;
         return true;
     }
     else return false;
@@ -89,10 +89,10 @@ void PID::SetTunings(double Kp, double Ki, double Kd)
     
     dispKp = Kp; dispKi = Ki; dispKd = Kd;
     
-    double SampleTimeInSec = ((double)SampleTime)/1000;
-    kp = Kp;
-    ki = Ki * SampleTimeInSec;
-    kd = Kd / SampleTimeInSec;
+     double SampleTimeInSec = ((double)SampleTime)/1000;
+     kp = Kp;
+     ki = Ki * SampleTimeInSec;
+     kd = Kd / SampleTimeInSec;
     
     if(controllerDirection ==REVERSE)
     {

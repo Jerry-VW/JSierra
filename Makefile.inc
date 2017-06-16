@@ -8,7 +8,8 @@ APPL_CXXOBJS += \
 	BalancerCpp.o \
 	Driver.o \
 	Steerer.o \
-	Comm.o
+	Comm.o \
+	PID.o
 
 SRCLANG := c++
 

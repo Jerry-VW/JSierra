@@ -12,13 +12,16 @@
  * @param lineObserver
  * @param engine
  * @param steerer
+ * @param comm
  */
-Driver::Driver(const LineObserver* lineObserver,
-                     Engine* engine, 
-                     Steerer* steerer)
+Driver::Driver(LineObserver* lineObserver,
+               Engine* engine,
+               Steerer* steerer,
+               Comm* comm)
     : mLineObserver(lineObserver),
       mEngine(engine),
       mSteerer(steerer),
+      mComm(comm),
       mIsInitialized(false) {
 }
 
@@ -27,13 +30,33 @@ Driver::Driver(const LineObserver* lineObserver,
  */
 void Driver::run() {
     if (mIsInitialized == false) {
-        mEngine->init();
+        mEngine -> init();
+        mSteerer -> init(&dCSBrightness);
         mIsInitialized = true;
     }
+    // update color sensor brightness value
+    dCSBrightness = mLineObserver -> getBrightness();
     // get turn
-    mSteerer ->Steer(&iTurn);
-    // params: int forward, int turn 
-    mEngine->setCommand(Engine::HIGH, iTurn);
+    mSteerer -> Steer(&iTurn);
+    // params: int forward, int turn
+    // normal drive
+    //mEngine -> setCommand(Engine::NORMAL, iTurn);
+    // idle test
+    mEngine -> setCommand(Engine::LOW, 0);
     // 倒立走行を行う
-    mEngine->run();
+    mEngine -> run();
+
+    mComm -> setBrightnessTurn(&dCSBrightness, &iTurn);
+}
+
+// PID tuning
+double Driver::getSteererP() { return mSteerer -> getP(); }
+double Driver::getSteererI() { return mSteerer -> getI(); }
+double Driver::getSteererD() { return mSteerer -> getD(); }
+
+bool Driver::setSteererPIDTunings(double commP,
+                                  double commI,
+                                  double commD) {
+    mSteerer -> setPIDTunings(commP, commI, commD);
+    return true;
 }

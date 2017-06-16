@@ -44,7 +44,6 @@ void LineObserver::setThreshold(int8_t threshold) {
 }
 
 // funciton get light rate from sensor: uint8_t
-uint8_t LineObserver::getLightRate() {
-    // return mColorSensor.get();
-    return 0;
+uint8_t LineObserver::getBrightness() {
+    return mColorSensor.getBrightness();
 }

@@ -26,6 +26,9 @@ GyroSensor  gGyroSensor(PORT_4);
 Motor       gLeftWheel(PORT_C);
 Motor       gRightWheel(PORT_B);
 
+//bluetooth file handle
+static FILE* bt = NULL;
+
 // Define objects
 // app
 static Driver* gDriver;
@@ -42,19 +45,29 @@ static Steerer* gSteerer;
  * EV3 system construction
  */
 static void user_system_create() {
+    // open bluetooth file
+    if (ev3_bluetooth_is_connected()) {
+        bt = ev3_serial_open_file(EV3_SERIAL_BT);
+        assert(bt != NULL);
+        ev3_led_set_color(LED_GREEN);
+    } else {
+        ev3_led_set_color(LED_RED);
+    }
     // Instantiate objects
-    // note the order
+    // note the order : BOTTOM UP by dependency
     // create links    ............why
     // to be available to delete them in user_system_destroy() easily(maybe)
     // UNITS instances
     gBalancer = new Balancer();
     gEngine = new Engine(gGyroSensor, gLeftWheel, gRightWheel, gBalancer);
     gLineObserver = new LineObserver(gColorSensor);
-    gSteerer = new Steerer(gLineObserver);
+    gSteerer = new Steerer();
     // PID                               TO-DO
-    // APP instanes
-    gDriver = new Driver(gLineObserver, gEngine, gSteerer);
-    gComm = new Comm();
+    // APP instances
+    // pass the opened bt serial file* to Comm
+    gComm = new Comm(bt);
+    gDriver = new Driver(gLineObserver, gEngine, gSteerer, gComm);
+    //gComm -> setDriver(gDriver);
     
     // Initialization complete, LED go ORANGE
     ev3_led_set_color(LED_ORANGE);
@@ -76,6 +89,8 @@ static void user_system_destroy() {
     delete gLineObserver;
     delete gEngine;
     delete gBalancer;
+
+    fclose(bt);
 }
 
 /**
@@ -121,7 +136,7 @@ void driver_task(intptr_t exinf) {
         // Button pressed
         wup_tsk(MAIN_TASK);
     } else {
-        gDriver->run();
+        gDriver -> run();
         ext_tsk();
     }
 }
@@ -136,7 +151,7 @@ void comm_task(intptr_t exinf) {
         gComm -> sendMessage(gb);
         wup_tsk(MAIN_TASK);
     } else {
-        gComm->run();
+        gComm -> run();
         ext_tsk();
     }
 }

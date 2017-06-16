@@ -8,25 +8,33 @@
 #ifndef STEERER_H_
 #define STEERER_H_
 
-//#include "PID.h"
-#include "LineObserver.h"
+#include "PID.h"
 
 class Steerer {
-public:
-    explicit Steerer(LineObserver* lineObserver);
-    bool Steer(int* pTurn);
+  public:
+    explicit Steerer();
+    void init(double* driverCSB);
+    bool Steer(int* driverTurn);
     void setTurn();
-    void SetTargetReflect(int);
-    // test
+
+    // PID tuning
+    double getP();
+    double getI();
+    double getD();
+    bool setPIDTunings(const double&, const double&, const double&);
+
+  private:
+    double calibrateBrightness();
     int PSteer();
 
-private:
-    LineObserver* mLineObserver;
-    signed char cTurn;
-    int iColorReflect;
-    int iTargetRefect;
-    double Kp;
-    double Ki;
-    double Kd;
+    PID* mPID;
+    double fixedBrightness; // fixed brightness, ready for PID
+    double* rawCSBrightness; // raw driver's value
+    double mTurn;
+    double dSensorBrightness;
+    double dTargetBrightness;
+    double dKp;
+    double dKi;
+    double dKd;
 };
 #endif // STEERER_H_
